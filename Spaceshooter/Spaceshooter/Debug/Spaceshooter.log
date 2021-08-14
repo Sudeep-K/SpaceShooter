@@ -1,0 +1,15 @@
+﻿  Game.cpp
+D:\cpp\Spaceshooter\Spaceshooter\Game.cpp(131,75): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\cpp\Spaceshooter\Spaceshooter\Game.cpp(131,39): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\cpp\Spaceshooter\Spaceshooter\Game.cpp(143,29): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\cpp\Spaceshooter\Spaceshooter\Game.cpp(246,20): warning C4018: '<': signed/unsigned mismatch
+D:\cpp\Spaceshooter\Spaceshooter\Game.cpp(253,21): warning C4018: '<': signed/unsigned mismatch
+  Spaceshooter.vcxproj -> D:\cpp\Spaceshooter\Debug\Spaceshooter.exe

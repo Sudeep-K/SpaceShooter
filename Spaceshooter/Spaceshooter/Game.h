@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "Asteroid.h"
+#include "Enemy.h"
 #include <map>
 #include <string>
 #include <sstream>
@@ -12,9 +13,14 @@ class Game
 private:
 	RenderWindow* window;
 
+	/*clock*/
+	Clock clock;
+	Clock enemyclock;
+
 	/*Resources*/
 	map<string, Texture*> textures;
 	vector<Bullet*> bullets;
+	vector<Bullet*> enemyBullets;
 
 	/*background*/
 	Texture backgroundTexture;
@@ -45,6 +51,11 @@ private:
 	vector<Asteroid*> asteroids;
 	Asteroid* asteroid;
 
+	/*Enemy initialization*/
+	vector<Enemy*> enemies;
+	Enemy* enemy;
+	int maxEnemies = 4;
+
 	/*vector difference between player and mouse cursor*/
 	float dx = 0.f;
 	float dy = 0.f;
@@ -61,6 +72,7 @@ private:
 	void initSystems();
 	void initPlayer();
 	void initAsteroid();
+	void initEnemy();
 public:
 	/*constructor and destructor*/
 	Game();
@@ -71,11 +83,16 @@ public:
 
 	void updateNormalisedVector();
 	void updatePlayerRotation();
+	void updateEnemiesRotation();
 	void updatePlayerInput();
 	void updatePlayerBoundary();
 	
 	void updateBullets();
 	void updateAsteroidsAndBullets();
+
+	void updateEnemyBulletBoundary();
+	void updateEnemyBullets();
+	void updateEnemiesAndBullets();
 	
 	void updateGUI();
 

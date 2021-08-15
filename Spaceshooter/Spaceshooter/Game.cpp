@@ -4,7 +4,7 @@ void Game::initWindow()
 {
 	/*initializes window using pointer*/
 	this->window = new RenderWindow(VideoMode(1200, 600), "Space Shooter");
-	this->window->setFramerateLimit(60);
+	this->window->setFramerateLimit(30);
 }
 
 void Game::initBackground()
@@ -30,8 +30,14 @@ void Game::initMediafiles()
 
 void Game::initTextures()
 {
+	this->textures["ENEMY"] = new Texture();
+	this->textures["ENEMY"]->loadFromFile("Textures/enemy.png");
+
 	this->textures["BULLET"] = new Texture();
 	this->textures["BULLET"]->loadFromFile("Textures/bullet.png");
+
+	this->textures["ENEMYBULLET"] = new Texture();
+	this->textures["ENEMYBULLET"]->loadFromFile("Textures/enemylaser.png");
 
 	this->textures["SMALLASS"] = new Texture();
 	this->textures["SMALLASS"]->loadFromFile("Textures/asteroid-small.png");
@@ -81,6 +87,11 @@ void Game::initAsteroid()
 	this->spawnTimer = this->spawnTimerMax;
 }
 
+void Game::initEnemy()
+{
+	
+}
+
 Game::Game()
 {
 	/*constructor for Game class*/
@@ -112,6 +123,16 @@ Game::~Game()
 
 	/*Deletes asteroids*/
 	for (auto* i : this->asteroids) {
+		delete i;
+	}
+
+	/*Deletes enemies*/
+	for (auto* i : this->enemies) {
+		delete i;
+	}
+
+	/*Deletes enemy bullets*/
+	for (auto* i : this->enemyBullets) {
 		delete i;
 	}
 }
@@ -150,6 +171,30 @@ void Game::updatePlayerRotation()
 	this->player->sprite.setRotation(rotation + 180);
 }
 
+void Game::updateEnemiesRotation()
+{
+	for (int i=0; i < enemies.size(); i++) {
+		/*calculate the current enemy position*/
+		Vector2f currentEnemyPosition;
+		currentEnemyPosition.x = this->enemies[i]->enemySprite.getGlobalBounds().left + this->enemies[i]->enemySprite.getGlobalBounds().width;
+		currentEnemyPosition.y = (this->enemies[i]->enemySprite.getGlobalBounds().top + this->enemies[i]->enemySprite.getGlobalBounds().height)/2.0f;
+		
+		/*calculate the current position of player*/
+		Vector2f currentPlayerPosition;
+		currentPlayerPosition.x = this->player->sprite.getGlobalBounds().left;
+		currentPlayerPosition.y = this->player->sprite.getGlobalBounds().top;
+
+		const float PI = 3.14159265;
+
+		/*vector difference between player and enemy*/
+		this->enemies[i]->dx = currentEnemyPosition.x - currentPlayerPosition.x;
+		this->enemies[i]->dy = currentEnemyPosition.y - currentPlayerPosition.y;
+		this->enemies[i]->rotation = ((atan2(this->enemies[i]->dy, this->enemies[i]->dx)) * 180 / PI);
+
+		this->enemies[i]->enemySprite.setRotation((rotation + 180));
+	}
+}
+
 void Game::updatePlayerInput()
 {
 	/*checks for the player movement*/
@@ -170,7 +215,7 @@ void Game::updatePlayerInput()
 			this->player->getPosition().y,
 			-this->normalizedVector.x,
 			-this->normalizedVector.y,
-			10.f, this->rotation));
+			20.f, this->rotation));
 	}
 }
 
@@ -215,13 +260,20 @@ void Game::updateBullets()
 			this->bullets.erase(this->bullets.begin() + counter);
 			--counter;
 		}
-		cout << this->bullets.size() << endl;
+		//cout << this->bullets.size() << endl;
 		++counter;
 	}
 }
 
 void Game::updateAsteroidsAndBullets()
 {
+	/*changes the color of the player back to white after some delay*/
+	if (clock.getElapsedTime().asSeconds() > 0.25f) {
+		clock.restart();
+		this->player->sprite.setColor(Color::White);
+	}
+
+
 	/*spawn random asteroids at random location*/
 	this->spawnTimer += 0.5f;
 	if (this->spawnTimer >= this->spawnTimerMax) {
@@ -269,10 +321,139 @@ void Game::updateAsteroidsAndBullets()
 				this->oofSound.play();
 				this->player->loseHp(1);
 				this->asteroids.erase(this->asteroids.begin() + i);
+				/*changes the color of player to red to indicate it is hit*/
+				clock.restart();
+				this->player->sprite.setColor(Color::Red);
 			}
 		}
 	}
 	//cout << asteroids.size() << endl;
+}
+
+void Game::updateEnemyBulletBoundary()
+{
+	unsigned counter = 0;
+	for (auto* i : this->enemyBullets) {
+
+		/*Delete the bullet if it goes beyond boundary*/
+		if (i->getBounds().left + i->getBounds().width > 1200.f) {
+			delete this->enemyBullets.at(counter);
+			this->enemyBullets.erase(this->enemyBullets.begin() + counter);
+			--counter;
+		}
+		else if (i->getBounds().left < 0.f) {
+			delete this->enemyBullets.at(counter);
+			this->enemyBullets.erase(this->enemyBullets.begin() + counter);
+			--counter;
+		}
+		else if (i->getBounds().top < 0.f) {
+			delete this->enemyBullets.at(counter);
+			this->enemyBullets.erase(this->enemyBullets.begin() + counter);
+			--counter;
+		}
+		else if (i->getBounds().top + i->getBounds().height > 1200.f) {
+			delete this->enemyBullets.at(counter);
+			this->enemyBullets.erase(this->enemyBullets.begin() + counter);
+			--counter;
+		}
+		else if (i->getBounds().intersects(this->player->getbounds())) {
+
+			/*delete enemy bullet and decrease health of player*/
+			delete this->enemyBullets.at(counter);
+			this->enemyBullets.erase(this->enemyBullets.begin() + counter);
+			--counter;
+
+			/*changes color of player to red incase it is hit*/
+			this->player->loseHp(1);
+			clock.restart();
+			this->player->sprite.setColor(Color::Red);
+		}
+		cout << this->enemyBullets.size() << endl;
+		++counter;
+	}
+}
+
+void Game::updateEnemyBullets()
+{
+	for (int k = 0; k < enemyBullets.size(); k++) {
+		enemyBullets[k]->update();
+	}
+}
+
+void Game::updateEnemiesAndBullets()
+{
+	/*spawns new enemies once all four are dead*/
+	if (this->enemies.size() <= 0 && (enemyclock.getElapsedTime().asSeconds() > 10.f )) {
+		enemyclock.restart();
+		this->enemies.push_back(new Enemy(this->textures["ENEMY"], 200.f, 200.f));
+		this->enemies.push_back(new Enemy(this->textures["ENEMY"], 400.f, 400.f));
+		this->enemies.push_back(new Enemy(this->textures["ENEMY"], 300.f, 300.f));
+		this->enemies.push_back(new Enemy(this->textures["ENEMY"], 250.f, 250.f));
+	}
+	
+
+	/*rotates enemy in the direction of player*/
+	this->updateEnemiesRotation();
+
+	/*checks for each enemy, bullet and player for intersection*/
+	for (int i = 0; i < this->enemies.size(); i++) {
+		
+		/*changes the color of the enemy back to white after some delay*/
+		if (clock.getElapsedTime().asSeconds() > 0.25f) {
+			clock.restart();
+			this->enemies[i]->enemySprite.setColor(Color::White);
+		}
+		bool enemy_removed = false;
+		this->enemies[i]->update();
+
+		/*check and remove bullet and enemy if both intersects*/
+		for (int k = 0; k < this->bullets.size() && !enemy_removed; k++) {
+			if (this->bullets[k]->getBounds().intersects(this->enemies[i]->getbounds())) {
+				if (enemies[i]->health > 0) {
+					this->bullets.erase(this->bullets.begin() + k);
+					this->enemies[i]->health -= this->enemies[i]->damage;
+					/*changes color of enemy to red incase it is hit*/
+					clock.restart();
+					this->enemies[i]->enemySprite.setColor(Color::Red);
+				}
+				else if (enemies[i]->health <= 0) {
+					/*restart enemy time each time a ship is destoryed*/
+					enemyclock.restart();
+					this->explosionSound.play();
+					this->points += this->enemies[i]->getPoints();
+					this->bullets.erase(this->bullets.begin() + k);
+					this->enemies.erase(this->enemies.begin() + i);
+					enemy_removed = true;
+				}
+			}
+		}
+		/*remove enemy if it touches our player*/
+		if (!enemy_removed && this->enemies[i]->getbounds().intersects(this->player->getbounds())) {
+			this->oofSound.play();
+			this->player->loseHp(1);
+			this->points += this->enemies[i]->getPoints();
+			this->enemies.erase(this->enemies.begin() + i);
+			enemy_removed = true;
+
+			/*changes the color of player to red to indicate it is hit*/
+			clock.restart();
+			this->player->sprite.setColor(Color::Red);
+			/*restart enemy time each time a ship is destroyed*/
+			enemyclock.restart();
+		}
+	}
+
+	/*spawn enemy bullets*/
+	for (int i = 0; i < this->enemies.size(); i++) {
+		if (this->enemies[i]->canPlayerAttack()) {
+			this->enemyBullets.push_back(new Bullet(this->textures["ENEMYBULLET"],
+				this->enemies[i]->enemySprite.getPosition().x,
+				this->enemies[i]->enemySprite.getPosition().y,
+				-this->enemies[i]->normalizedVector.x,
+				-this->enemies[i]->normalizedVector.y,
+				10.f, (this->enemies[i]->rotation)));
+		}
+	}
 }
 
 void Game::updateGUI()
@@ -308,6 +489,9 @@ void Game::update()
 	this->updatePlayerBoundary();
 	this->updateBullets();
 	this->updateAsteroidsAndBullets();
+	this->updateEnemiesAndBullets();
+	this->updateEnemyBullets();
+	this->updateEnemyBulletBoundary();
 	this->updateGUI();
 }
 
@@ -325,11 +509,19 @@ void Game::render()
 	for (auto* bullet : this->bullets) {
 		bullet->render(this->window);
 	}
+	/*renders enemy bullets*/
+	for (auto* enemybullet : this->enemyBullets) {
+		enemybullet->render(this->window);
+	}
 	/*renders player*/
 	this->player->render(*this->window);
 	/*renders asteroid*/
 	for (auto* asteroid : this->asteroids) {
 		asteroid->render(this->window);
+	}
+	/*renders enemies*/
+	for (auto* enemy : this->enemies) {
+		enemy->render(this->window);
 	}
 	/*renders GUI text on window*/
 	this->renderGUI();

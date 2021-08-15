@@ -93,6 +93,8 @@ public:
 	void updateEnemyBulletBoundary();
 	void updateEnemyBullets();
 	void updateEnemiesAndBullets();
+
+	void updateBulletCollision();
 	
 	void updateGUI();
 

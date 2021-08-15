@@ -58,7 +58,7 @@ void Game::initGUI()
 	/*sets text*/
 	this->text.setFont(this->font);
 	this->text.setFillColor(Color::Green);
-	this->text.setCharacterSize(40);
+	this->text.setCharacterSize(30);
 
 	/*sets gameover text*/
 	this->gameOverText.setFont(this->font);
@@ -377,6 +377,13 @@ void Game::updateEnemyBullets()
 {
 	for (int k = 0; k < enemyBullets.size(); k++) {
 		enemyBullets[k]->update();
+		for (int i = 0; i < bullets.size(); i++) {
+			if (bullets[i]->getBounds().intersects(this->enemyBullets[k]->getBounds())) {
+				this->enemyBullets.erase(this->enemyBullets.begin() + k);
+				this->bullets.erase(this->bullets.begin() + i);
+				++k;
+			}
+		}
 	}
 }
 
@@ -385,10 +392,10 @@ void Game::updateEnemiesAndBullets()
 	/*spawns new enemies once all four are dead*/
 	if (this->enemies.size() <= 0 && (enemyclock.getElapsedTime().asSeconds() > 10.f )) {
 		enemyclock.restart();
-		this->enemies.push_back(new Enemy(this->textures["ENEMY"], 800.f, 200.f));
-		this->enemies.push_back(new Enemy(this->textures["ENEMY"], 900.f, 400.f));
-		this->enemies.push_back(new Enemy(this->textures["ENEMY"], 1000.f, 300.f));
-		this->enemies.push_back(new Enemy(this->textures["ENEMY"], 1050.f, 250.f));
+		this->enemies.push_back(new Enemy(this->textures["ENEMY"], rand() % 300 + 600.f, rand() % 400 + 50.f));
+		this->enemies.push_back(new Enemy(this->textures["ENEMY"], rand() % 300 + 600.f, rand() % 400 + 50.f));
+		this->enemies.push_back(new Enemy(this->textures["ENEMY"], rand() % 300 + 600.f, rand() % 400 + 50.f));
+		this->enemies.push_back(new Enemy(this->textures["ENEMY"], rand() % 300 + 600.f, rand() % 400 + 50.f));
 	}
 	
 

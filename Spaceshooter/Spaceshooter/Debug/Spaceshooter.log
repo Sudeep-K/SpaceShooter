@@ -15,7 +15,8 @@ D:\cpp\Spaceshooter\Spaceshooter\Game.cpp(187,30): warning C4305: 'initializing'
 D:\cpp\Spaceshooter\Spaceshooter\Game.cpp(298,20): warning C4018: '<': signed/unsigned mismatch
 D:\cpp\Spaceshooter\Spaceshooter\Game.cpp(305,21): warning C4018: '<': signed/unsigned mismatch
 D:\cpp\Spaceshooter\Spaceshooter\Game.cpp(378,20): warning C4018: '<': signed/unsigned mismatch
-D:\cpp\Spaceshooter\Spaceshooter\Game.cpp(399,20): warning C4018: '<': signed/unsigned mismatch
-D:\cpp\Spaceshooter\Spaceshooter\Game.cpp(410,21): warning C4018: '<': signed/unsigned mismatch
-D:\cpp\Spaceshooter\Spaceshooter\Game.cpp(447,20): warning C4018: '<': signed/unsigned mismatch
+D:\cpp\Spaceshooter\Spaceshooter\Game.cpp(380,21): warning C4018: '<': signed/unsigned mismatch
+D:\cpp\Spaceshooter\Spaceshooter\Game.cpp(406,20): warning C4018: '<': signed/unsigned mismatch
+D:\cpp\Spaceshooter\Spaceshooter\Game.cpp(417,21): warning C4018: '<': signed/unsigned mismatch
+D:\cpp\Spaceshooter\Spaceshooter\Game.cpp(454,20): warning C4018: '<': signed/unsigned mismatch
   Spaceshooter.vcxproj -> D:\cpp\Spaceshooter\Debug\Spaceshooter.exe

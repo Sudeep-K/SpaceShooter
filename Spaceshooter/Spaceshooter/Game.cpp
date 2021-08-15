@@ -4,7 +4,7 @@ void Game::initWindow()
 {
 	/*initializes window using pointer*/
 	this->window = new RenderWindow(VideoMode(1200, 600), "Space Shooter");
-	this->window->setFramerateLimit(30);
+	this->window->setFramerateLimit(60);
 }
 
 void Game::initBackground()
@@ -58,7 +58,7 @@ void Game::initGUI()
 	/*sets text*/
 	this->text.setFont(this->font);
 	this->text.setFillColor(Color::Green);
-	this->text.setCharacterSize(20);
+	this->text.setCharacterSize(40);
 
 	/*sets gameover text*/
 	this->gameOverText.setFont(this->font);
@@ -385,10 +385,10 @@ void Game::updateEnemiesAndBullets()
 	/*spawns new enemies once all four are dead*/
 	if (this->enemies.size() <= 0 && (enemyclock.getElapsedTime().asSeconds() > 10.f )) {
 		enemyclock.restart();
-		this->enemies.push_back(new Enemy(this->textures["ENEMY"], 200.f, 200.f));
-		this->enemies.push_back(new Enemy(this->textures["ENEMY"], 400.f, 400.f));
-		this->enemies.push_back(new Enemy(this->textures["ENEMY"], 300.f, 300.f));
-		this->enemies.push_back(new Enemy(this->textures["ENEMY"], 250.f, 250.f));
+		this->enemies.push_back(new Enemy(this->textures["ENEMY"], 800.f, 200.f));
+		this->enemies.push_back(new Enemy(this->textures["ENEMY"], 900.f, 400.f));
+		this->enemies.push_back(new Enemy(this->textures["ENEMY"], 1000.f, 300.f));
+		this->enemies.push_back(new Enemy(this->textures["ENEMY"], 1050.f, 250.f));
 	}
 	
 
@@ -451,7 +451,7 @@ void Game::updateEnemiesAndBullets()
 				this->enemies[i]->enemySprite.getPosition().y,
 				-this->enemies[i]->normalizedVector.x,
 				-this->enemies[i]->normalizedVector.y,
-				10.f, (this->enemies[i]->rotation)));
+				5.f, (this->enemies[i]->rotation)));
 		}
 	}
 }

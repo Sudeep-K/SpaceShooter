@@ -2,7 +2,7 @@
 
 void Enemy::initVariables()
 {
-	this->healthMax = 3;
+	this->healthMax = 2;
 	this->health = this->healthMax;
 	this->damage = 1;
 	this->points = 500;

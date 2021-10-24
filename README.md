@@ -51,8 +51,8 @@ Spaceshooter.exe
 <a href="https://www.facebook.com/arahanta.pokharel.5">
   <img src="https://scontent.fktm2-2.fna.fbcdn.net/v/t1.6435-1/p320x320/101444076_2703462529930691_6233298504974860288_n.jpg?_nc_cat=100&ccb=1-5&_nc_sid=7206a8&_nc_ohc=UqSitYMQAH8AX_5VDiM&_nc_ht=scontent.fktm2-2.fna&oh=532849dd1a60148ffa18ead00a43102b&oe=619ADE0E" width=50px>
 </a>
-<a href="https://www.facebook.com/anmol.pant.96">
-  <img src="https://scontent.fktm2-2.fna.fbcdn.net/v/t39.30808-1/c159.0.320.320a/p320x320/246192958_1537454416590675_6611961438538411970_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=7206a8&_nc_ohc=LDzRFvqiY7sAX-rGNxV&_nc_ht=scontent.fktm2-2.fna&oh=a1a0495fd38e4318c933f5a53572edab&oe=6179A963" width=50px>
+<a href="https://github.com/amitpant7">
+  <img src="https://github.com/amitpant7.png" width=50px>
 </a>
 
 

@@ -39,7 +39,6 @@ Spaceshooter.exe
 - Press 's' key to move down
 - Right click mouse to shoot laser
 - Hover mouse to rotate spaceship
-- 
 
 ## Contributors
 

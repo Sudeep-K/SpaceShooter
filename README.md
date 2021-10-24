@@ -1,6 +1,7 @@
 # SpaceShooter
 ## About The Project
-![spaceshooter](https://github.com/Sudeep-K/SpaceShooter/blob/main/Spaceshooter/Spaceshoter.gif)
+![spaceshooter](https://github.com/Sudeep-K/SpaceShooter/blob/main/Spaceshooter/spaceshooter.gif)
+
 This project was part of the minor-project submitted to Department of Electronics and Computer Engineering, IOE, Thapathali Campus, in the partial fulfillment of the requirements for the award of the Degree of Bachelor of Engineering in Electronics and Communication Engineering.
 
 The goal of this Project was to answer the following questions:

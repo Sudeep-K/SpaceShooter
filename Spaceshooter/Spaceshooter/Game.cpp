@@ -382,6 +382,7 @@ void Game::updateEnemyBullets()
 				this->enemyBullets.erase(this->enemyBullets.begin() + k);
 				this->bullets.erase(this->bullets.begin() + i);
 				++k;
+				++i;
 			}
 		}
 	}
@@ -403,7 +404,7 @@ void Game::updateEnemiesAndBullets()
 	this->updateEnemiesRotation();
 
 	/*checks for each enemy, bullet and player for intersection*/
-	for (int i = 0; i < this->enemies.size(); i++) {
+	for (int i = (this->enemies.size()-1); i >= 0; i--) {
 		
 		/*changes the color of the enemy back to white after some delay*/
 		if (clock.getElapsedTime().asSeconds() > 0.25f) {
@@ -414,7 +415,7 @@ void Game::updateEnemiesAndBullets()
 		this->enemies[i]->update();
 
 		/*check and remove bullet and enemy if both intersects*/
-		for (int k = 0; k < this->bullets.size() && !enemy_removed; k++) {
+		for (int k = (this->bullets.size()-1); k >=0 && !enemy_removed; k--) {
 			if (this->bullets[k]->getBounds().intersects(this->enemies[i]->getbounds())) {
 				if (enemies[i]->health > 0) {
 					this->bullets.erase(this->bullets.begin() + k);

@@ -1,6 +1,9 @@
 # SpaceShooter
 ## About The Project
-![spaceshooter](https://gfycat.com/slightscholarlychanticleer.gif)
+
+
+https://user-images.githubusercontent.com/59283573/138602420-fb699697-2eaa-4059-a309-9ff4109a7bcb.mp4
+
 
 This project was part of the minor-project submitted to Department of Electronics and Computer Engineering, IOE, Thapathali Campus, in the partial fulfillment of the requirements for the award of the Degree of Bachelor of Engineering in Electronics and Communication Engineering.
 
